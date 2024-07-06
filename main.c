@@ -5,31 +5,45 @@
 #include "DBinfo.h"
 #include <mysql/mysql.h>
 
-
-int main() 
+int main(int argc, char *argv[]) 
 {
 	int seleccion = 0;
 	bool infoConexion = false;
 	MYSQL *conexion;
-	
-	//Se inicia la conexiÃ³n y se comprueba si el user pudo hacerlo.
+	int clave;
+	//Se inicia la conexión y se comprueba si el user pudo hacerlo.
 	infoConexion = conectar(&conexion);	//Funcion conectar recibiento parametro "conexion" como referencia
 	
-	main_menu(); //MenÃº de acciones
-	
-	switch(seleccion)
+	if (infoConexion == true) 
 	{
-		case 1:													break;
-
-		case 2: 												break;
-
-		case 3:													break;
-
-		case 4:													break;
-	
-		default:	printf("Ninguna opciÃ³n seleccionada.\n"); break;
-	}
-	
+		do 
+		{
+			seleccion = main_menu(); //Menú de acciones
+			
+			switch(seleccion)
+			{
+				case 1:		ingresoDatos(conexion);						break;
+				
+				case 2: 	elimino(conexion);							break;
+				
+				case 3:		modificar(conexion);						break;
+				
+				case 4:			
+							printf("ingrese campo clave: ");
+							scanf("%d",&clave);
+							consulto(conexion,clave);					break;
+				
+				case 5:		Listar(conexion);							break;
+				
+				case 6:		return 0;									break;
+				
+				default:	printf("Ninguna opcion seleccionada.\n");	break;
+			}
+			
+			seleccion = 0;
+			
+		} while (seleccion != 6);
+	} 
 	
 	
 	return 0;
